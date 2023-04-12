@@ -1,4 +1,5 @@
 import 'package:api/BO/BO.dart';
+import 'package:api/Helpers/APIHandlerHelper/APIHandlerHelper.dart';
 import 'package:api/Helpers/Utitilites/Utilities.dart';
 import 'package:api/Pages/FirstPage/FirstPageModel.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,17 @@ class FirstPageVM extends FirstPageModel {
     try {
       setIsAvengersLoading(isLoading: true);
       var data = await avengerServiceInstance.getAllAvengers();
-      setAllAvengers(newAvengers: data.content ?? []);
+      if (data.statusCode == HttpStatusCode.OK) {
+        setAllAvengers(newAvengers: data.content ?? []);
+        seterror(errortext: " ");
+      } else {
+        error = data.message.toString();
+        seterror(errortext: error);
+        // set the error string to show to the view
+        print("************************************");
+        print(data.message.toString());
+        print("************************************");
+      }
       setIsAvengersLoading(isLoading: false);
     } catch (e) {
       e.writeExceptionData();
@@ -31,9 +42,10 @@ class FirstPageVM extends FirstPageModel {
 
   Future<void> addHero({required String nameofhero}) async {
     try {
+      cancelInput();
+      setIsAvengersLoading(isLoading: true);
       AvengerBO instance = AvengerBO(id: null, name: nameofhero);
       var data = await avengerServiceInstance.createNewAvenger(hero: instance);
-      cancelInput();
       await fetchAllAvengers();
     } catch (e) {
       e.writeExceptionData();
@@ -48,11 +60,12 @@ class FirstPageVM extends FirstPageModel {
   Future<void> editHero(
       {required int index, required String nameofhero}) async {
     try {
+      cancelInput();
+      setIsAvengersLoading(isLoading: true);
       String heroname = nameofhero;
       AvengerBO instance = AvengerBO(id: allAvengers[index].id, name: heroname);
       var data = await avengerServiceInstance.editNameOfAvenger(hero: instance);
       await fetchAllAvengers();
-      cancelInput();
     } catch (e) {
       e.writeExceptionData();
     }

@@ -45,4 +45,8 @@ abstract class _FirstPageModelBase with Store {
     data = "";
     texts = data;
   }
+  String error = "";
+  seterror({required String errortext}){
+    error = errortext;
+  }
 }
