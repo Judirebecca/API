@@ -52,6 +52,7 @@ class _FirstPageState extends State<FirstPage> {
         switch (event.data[1]) {
           // If the message is showpop trigger the method popUpuserInput
           case "showpopup":
+          _controller.text = "";
             popUpuserInput();
             break;
 
@@ -79,9 +80,9 @@ class _FirstPageState extends State<FirstPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+
         // In the Onpressed method, trigger the method showpop and clear the controller as the controller's data should not be displayed in the textfield
         onPressed: () {
-          _controller.clear();
           _FirstPageVM.showpop();
         },
         child: const Icon(Icons.add_rounded),
