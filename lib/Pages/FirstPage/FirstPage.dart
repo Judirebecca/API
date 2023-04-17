@@ -50,7 +50,7 @@ class _FirstPageState extends State<FirstPage> {
       if (event is AddText) {
         // Create a switch case and the first index of list data of the event as expression
         switch (event.data[1]) {
-          // If the message is showpop trigger the method popUpuserInput
+          // If the message is showpop trigger the method popUpuserInput and set the controller's text empty
           case "showpopup":
           _controller.text = "";
             popUpuserInput();
@@ -89,7 +89,6 @@ class _FirstPageState extends State<FirstPage> {
       ),
       appBar: AppBar(
         title: const Text("AVENGERS"),
-        actions: const [],
       ),
       body: Column(
         children: [
@@ -166,6 +165,7 @@ class _FirstPageState extends State<FirstPage> {
               child: TextFormField(
                 // In the controller parameter of TextFormfield pass the _controller
                 controller: _controller,
+                onChanged:_FirstPageVM.onchange,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.person),
                   label: const Text("Hello hero!"),
@@ -206,6 +206,7 @@ class _FirstPageState extends State<FirstPage> {
               // Inside the alert box display the particular data in the index of the list value
               child: TextFormField(
                 controller: _controller,
+                onChanged:_FirstPageVM.onchange,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.person),
                   label: const Text("Hello Hero!"),

@@ -1,5 +1,6 @@
 import 'package:api/BO/BO.dart';
 import 'package:api/Helpers/APIHandlerHelper/APIHandlerHelper.dart';
+import 'package:api/Helpers/Mixins/Textfield.dart';
 import 'package:api/Helpers/Utitilites/Utilities.dart';
 import 'package:api/Pages/FirstPage/FirstPageModel.dart';
 import 'package:flutter/material.dart';
@@ -108,5 +109,9 @@ class FirstPageVM extends FirstPageModel {
 
   void cancelInput() {
     navigationStream.add(NavigatorPop());
+  }
+
+  void onchange(String text){
+    Textfieldcontroller.add(AddTextfield(data: text));
   }
 }
