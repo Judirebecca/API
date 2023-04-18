@@ -1,0 +1,47 @@
+@startuml Avenger Services Class Diagram
+package Services{
+    package AvengerService{
+        abstract class IAvengerService{
+            + getAllAvengers() : Future<ServiceResult<List<AvengerBO>>>
+            + createAvenger(AvengerBO hero) : Future<ServiceResult<AvengerBO>>
+            + editAvenger(AvengerBO hero) : Future<ServiceResult<List<AvengerBO>>>
+            + deleteAvenger(AvengerBO hero) : Future<ServiceResult<List<AvengerBO>>>
+        }
+    }
+}
+package Pages{
+    package FirstPage{
+        class FirstPageVM{
+            + fetchAllAvengers() : Future<void>
+            + addHero(String nameOfHero) : Future<void>
+            + editHero(int index, String nameOfHero) : Future<void>
+            + deleteHero(int index) : Future<void>
+            + showPop() : Future<void>
+            + showSecondPop(int index) : Future<void>
+            + cancelInput() : void
+            + onChange(String text) : void
+        }
+    }
+}
+package BOs{
+    package AvengerBO{
+        class AvengerBO{
+            + id : int
+            + name : String
+        }
+    }
+}
+package Helpers{
+    package AppConstants{
+    class AppConstants{
+        + avengerServiceBaseUrl : String
+        + avengerServiceGetAllAvengersEndpoint : String
+        + avengerServiceCreateNewHeroEndPoint : String
+        + avengerServiceEditHeroEndPoint : String
+    }
+}
+}
+IAvengerService --> AppConstants : uses
+IAvengerService --> AvengerBO : uses
+FirstPageVM --> IAvengerService : uses
+@enduml

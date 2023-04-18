@@ -5,7 +5,7 @@ import '../../BO/BO.dart';
 import '../../Helpers/AppNavigations/NavigationMixin.dart';
 import '../../Helpers/Mixins/Popup.dart';
 import '../../Helpers/Mixins/Textfield.dart';
-import '../../Services/IAvengerService/IAvengerService.dart';
+import '../../Services/AvengerService/IAvengerService.dart';
 part 'FirstPageModel.g.dart';
 
 // Create a class FirstPageModel that has the mixins Popupdata,NavigationMixin, Textfielddata
@@ -41,12 +41,12 @@ abstract class _FirstPageModelBase with Store {
   String texts = " ";
 
 // Create a method settext that requires data variable of String datatype as parameter and inside the method set data as empty String and set the value of data to texts
-  settext({required String data}) {
+  void settext({required String data}) {
     data = "";
     texts = data;
   }
   String error = "";
-  seterror({required String errortext}){
+  void seterror({required String errortext}){
     error = errortext;
   }
 }

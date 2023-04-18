@@ -1,0 +1,34 @@
+@startuml BO Class Diagram
+package BOs{
+    package AvengerBO{
+        class AvengerBO{
+            + id : int
+            + name : String
+        }
+    }
+}
+package Services{
+    package AvengerService{
+        abstract class IAvengerService{
+            + getAllAvengers() : Future<ServiceResult<List<AvengerBO>>>
+            + createAvenger(AvengerBO hero) : Future<ServiceResult<AvengerBO>>
+            + editAvenger(AvengerBO hero) : Future<ServiceResult<List<AvengerBO>>>
+            + deleteAvenger(AvengerBO hero) : Future<ServiceResult<List<AvengerBO>>>
+        }
+    }
+}
+package Pages{
+    package FirstPage{
+        class FirstPageModel{
+            + avengerServiceInstance : IAvengerService
+            + text : String
+            + allAvenger : List<AvengerBO>
+            + isAvengerLoading : bool
+            + errortext : String
+        }
+    }
+}
+IAvengerService --> AvengerBO : uses
+FirstPageModel --> AvengerBO : uses
+
+@enduml

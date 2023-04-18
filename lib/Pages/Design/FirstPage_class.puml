@@ -1,0 +1,52 @@
+@startuml First Page Class Diagram
+package Pages{
+    package FirstPage{
+        class FirstPage{
+        - _FirstPageVM : FirstPageVM
+        # initState() : void 
+        # disposeState() : void 
+        + popUserInput() : void 
+        + popUpActions(int index) : void
+    }
+    class FirstPageVM{
+        + fetchAllAvengers() : Future<void>
+        + addHero(String nameOfHero) : Future<void>
+        + editHero(int index, String nameOfHero) : Future<void>
+        + deleteHero(int index) : Future<void>
+        + showPop() : Future<void>
+        + showSecondPop(int index) : Future<void>
+        + cancelInput() : void
+        + onChange(String text) : void
+    }
+    class FirstPageModel{
+        + avengerServiceInstance : IAvengerService
+        + text : String
+        + allAvenger : List<AvengerBO>
+        + isAvengerLoading : bool 
+        + errortext : String
+    }
+}
+}
+package Services{
+    package AvengerService{
+        abstract class IAvengerService{
+            + getAllAvengers() : Future<ServiceResult<List<AvengerBO>>>
+            + createAvenger(AvengerBO hero) : Future<ServiceResult<AvengerBO>>
+            + editAvenger(AvengerBO hero) : Future<ServiceResult<List<AvengerBO>>>
+            + deleteAvenger(AvengerBO hero) : Future<ServiceResult<List<AvengerBO>>>
+        }
+    }
+}
+package BOs{
+    package AvengerBO{
+        class AvengerBO{
+            + id : int
+            + name : String
+        }
+    }
+}
+FirstPageVM --> FirstPageModel : extends
+FirstPage --> FirstPageVM : uses
+FirstPageModel --> AvengerBO : uses
+FirstPageVM --> IAvengerService : uses
+@enduml

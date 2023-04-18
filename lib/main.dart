@@ -3,8 +3,8 @@ import 'package:get_it/get_it.dart';
 
 import 'App.dart';
 import 'BO/BO.mapper.g.dart';
-import 'Services/IAvengerService/AvengerService.dart';
-import 'Services/IAvengerService/IAvengerService.dart';
+import 'Services/AvengerService/AvengerService.dart';
+import 'Services/AvengerService/IAvengerService.dart';
 import 'main.reflectable.dart';
 
 void main() {
