@@ -77,6 +77,12 @@ class _FirstPageState extends State<FirstPage> {
   }
 
   @override
+  void dispose(){
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -225,10 +231,10 @@ class _FirstPageState extends State<FirstPage> {
             ElevatedButton(
 
                 // If the elevated button is pressed trigger the method editHero and pass the text of the controller to the parameter nameofhero and index to the index parameter
-                onPressed: () {
+                onPressed:()async => await
                   _FirstPageVM.editHero(
-                      index: index, nameofhero: _controller.text);
-                },
+                      index: index, nameofhero: _controller.text)
+                ,
                 child: const Text("Save")),
           ],
         );

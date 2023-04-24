@@ -3,7 +3,7 @@ import 'package:api/Helpers/APIHandlerHelper/APIHandlerHelper.dart';
 import 'package:api/Helpers/Mixins/Textfield.dart';
 import 'package:api/Helpers/Utitilites/Utilities.dart';
 import 'package:api/Pages/FirstPage/FirstPageModel.dart';
-import 'package:flutter/material.dart';
+
 
 import '../../Helpers/AppNavigations/NavigationMixin.dart';
 import '../../Helpers/Mixins/Popup.dart';
@@ -26,9 +26,6 @@ class FirstPageVM extends FirstPageModel {
         error = data.message.toString();
         seterror(errortext: error);
         // set the error string to show to the view
-        print("************************************");
-        print(data.message.toString());
-        print("************************************");
       }
       setIsAvengersLoading(isLoading: false);
     } catch (e) {

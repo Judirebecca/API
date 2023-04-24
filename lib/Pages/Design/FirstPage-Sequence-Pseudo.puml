@@ -1,0 +1,172 @@
+@startuml First Page Sequence Diagram 
+
+skinparam sequence{
+    ParticipantBackgroundColor #A7BEAE
+    LifeLineBackgroundColor #E7E8D1
+    LifeLineBorderColor #2C5F2D
+    ActorBackgroundColor #FC766AFF
+    ActorBorderColor #FC766AFF
+    ArrowColor #B85042
+    ArrowFontColor #234E70
+}
+
+hide footbox
+autonumber
+actor user
+title Initial State 
+user -> FirstPage : Invoke initState()
+activate user
+activate FirstPage
+FirstPage -> FirstPage : Invoke fetchAllAvengers()
+FirstPage -> FirstPage : Add listener for Textfieldcontroller and listen to the incoming events
+alt#6883BC #FCF6F5 event == AddTextfield
+FirstPage -> FirstPage : Set the controller's selection as collapsed
+end
+FirstPage -> FirstPage : Add listener for popupcontroller and listen to the incoming events
+alt#6883BC #FCF6F5 event == AddText
+alt#6883BC #FCF6F5 event.data[1] == "showpopup"
+FirstPage -> FirstPage : Set empty String to the controller's text
+FirstPage -> FirstPage : Invoke popUpuserInput()
+FirstPage --> user : Displays the Pop up with empty input field
+else event.data[1] == "popupaction"
+FirstPage -> FirstPage : Display the name of the Avenger to be edited in the input field with cursor after it 
+FirstPage -> FirstPage : Invoke popUpActions(index)
+FirstPage --> user : Displays the Pop up with avenger name in the input field
+end
+end
+FirstPage -> FirstPage : Add listener for navigationStream and listen to the incoming events
+alt#6883BC #FCF6F5 event == NavigatorPop
+FirstPage -> FirstPage : Close the Popup
+FirstPage --> user : Returns
+deactivate user
+deactivate FirstPage
+end
+
+autonumber
+newpage Add new avenger
+user -> FirstPage : '+' button.clicked
+activate user
+activate FirstPage
+FirstPage -> FirstPageVM : Invokes showPop()
+activate FirstPageVM
+FirstPageVM --> FirstPage : Returns
+deactivate FirstPageVM
+FirstPage --> user : Display the pop up with the input field
+deactivate FirstPage
+deactivate user
+
+autonumber
+newpage Textformfield onChange property for Creating Avenger
+user -> FirstPage : User enters text
+activate user
+activate FirstPage
+FirstPage -> FirstPageVM : Invokes onChange(text)
+activate FirstPageVM
+FirstPageVM --> FirstPage : Returns
+deactivate FirstPageVM
+FirstPage --> user : Display the text entered
+deactivate FirstPage
+deactivate user
+
+autonumber
+newpage Save the Avenger
+user -> FirstPage : 'Save' button.clicked
+activate user
+activate FirstPage
+FirstPage -> FirstPageVM : Invokes onclickAddHero(nameOfHero)
+activate FirstPageVM
+FirstPageVM --> FirstPage : Returns
+deactivate FirstPageVM
+FirstPage --> user : Display the new Avenger with its ID
+deactivate FirstPage
+deactivate user
+
+autonumber
+newpage Cancel the Avenger
+user -> FirstPage : 'Cancel' button.clicked
+activate user
+activate FirstPage
+FirstPage -> FirstPageVM : Invokes cancelInput()
+activate FirstPageVM
+FirstPageVM --> FirstPage : Returns
+deactivate FirstPageVM
+FirstPage --> user : Dismiss the Pop up
+deactivate FirstPage
+deactivate user
+
+newpage Edit Avenger
+autonumber
+user -> FirstPage : 'Edit' icon.clicked
+activate user
+activate FirstPage
+FirstPage -> FirstPageVM : Invokes showSecondPop(index)
+activate FirstPageVM
+FirstPageVM --> FirstPage : Returns
+deactivate FirstPageVM
+FirstPage --> user : Display the pop up with the input field
+deactivate FirstPage
+deactivate user
+
+newpage Textformfield onChange property for Editing Avenger
+autonumber
+user -> FirstPage : User enters text
+activate user
+activate FirstPage
+FirstPage -> FirstPageVM : Invokes onChange()
+activate FirstPageVM
+FirstPageVM --> FirstPage : Returns
+deactivate FirstPageVM
+FirstPage --> user : Display the text entered
+deactivate FirstPage
+deactivate user
+
+newpage Save the Edited Avenger
+autonumber
+user -> FirstPage : 'Save' button.clicked
+activate user
+activate FirstPage
+FirstPage -> FirstPageVM : Invokes OnclickEditHero(index, nameOfHero)
+activate FirstPageVM
+FirstPageVM --> FirstPage : Returns
+deactivate FirstPageVM
+FirstPage --> user : Display the edited avenger
+deactivate FirstPage
+deactivate user
+
+newpage Cancel the Edited Avenger
+autonumber
+user -> FirstPage : 'Cancel' button.clicked
+activate user
+activate FirstPage
+FirstPage -> FirstPageVM : Invokes cancelInput()
+activate FirstPageVM
+FirstPageVM --> FirstPage : Returns
+deactivate FirstPageVM
+FirstPage --> user : Dismiss the Pop up
+deactivate FirstPage
+deactivate user
+
+newpage Delete Avenger
+autonumber
+user -> FirstPage : 'Delete' button.clicked
+activate user
+activate FirstPage
+FirstPage -> FirstPageVM : Invokes OnclickdeleteHero(index)
+activate FirstPageVM
+FirstPageVM --> FirstPage : Returns
+deactivate FirstPageVM
+FirstPage --> user : The avenger in that id is deleted and displayed
+deactivate FirstPage
+deactivate user
+
+newpage Dispose() 
+autonumber
+user -> FirstPage : Invoke dispose()
+activate user
+activate FirstPage
+FirstPage -> FirstPage : Dispose the TextEditingController
+FirstPage -> user : Returns
+deactivate user
+deactivate FirstPage
+
+@enduml

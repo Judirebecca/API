@@ -1,0 +1,139 @@
+@startuml Avenger Service Sequence Diagram
+title Create New Avenger Service
+hide footbox
+autonumber
+Caller -> AvengerService : Invokes createNewAvenger(hero)
+activate Caller
+activate AvengerService
+alt#6883BC #FCF6F5 try
+    AvengerService -> AvengerService : Invoke _dio.post() and assign the response received from the avengerServiceCreateNewHeroEndPoint to variable responseData
+    alt#6883BC #FCF6F5 responseData.statusCode == 201
+        AvengerService --> Caller : Returns the ServiceResult with statusCode as OK and the deserialized response data with a message "New hero is created"
+    else  #efbbbb
+        AvengerService --> Caller : Returns the ServiceResult with statusCode as Conflict and a message "Data has not been created"
+    end
+else  #efbbbb FormatException
+    AvengerService --> Caller : Returns the ServiceResult with statusCode as Forbidden and a message "The type of data got is incorrect!"
+else #efbbbb SocketException
+    AvengerService --> Caller : Returns the ServiceResult with statusCode as NetworkFailure and a message "There is no internet connection!"
+else #efbbbb Catch
+    AvengerService -> Utilities : Invokes writeExceptionData()
+    activate Utilities
+    Utilities --> AvengerService : Returns ServiceResult with statusCode as SystemException and error message
+    deactivate Utilities
+    AvengerService --> Caller : Returns
+    deactivate AvengerService
+    deactivate Caller
+end
+
+newpage Delete Hero from Avengers
+hide footbox
+autonumber
+Caller -> AvengerService : Invokes deleteHeroFromAvenger(hero)
+activate Caller
+activate AvengerService
+alt#6883BC #FCF6F5 try 
+    AvengerService -> AvengerService : Invoke _dio.delete() and assign the response received from the avengerServiceEditHeroEndPoint with path variable to variable responseData
+    alt#6883BC #FCF6F5 responseData.statusCode == 200
+    AvengerService -> AvengerService : Assign the data of reponseData to a variable content
+    AvengerService -> AvengerService : Initialize an empty list named finalContent of type AvengerBO 
+    alt#6883BC #FCF6F5 content is list
+    loop#6883BC #FCF6F5 each Element in content
+    AvengerService -> AvengerService : Assign the deserialized data of the Element to the variable instance
+    alt#6883BC #FCF6F5 instance != null 
+    AvengerService -> AvengerService : Add the instance to the List finalContent
+    end
+    end
+    end
+        AvengerService --> Caller : Returns the ServiceResult with statusCode as OK with a message "Data deleted Successfully" and assign the finalContent as content
+    else  #efbbbb
+        AvengerService --> Caller : Returns the ServiceResult with statusCode as Conflict with a message "Data has not been created" and an empty List as content
+    end
+else  #efbbbb FormatException
+    AvengerService --> Caller : Returns the ServiceResult with statusCode as Forbidden and a message "The type of data got is incorrect!" and an empty List as content
+else #efbbbb SocketException
+    AvengerService --> Caller : Returns the ServiceResult with statusCode as NetworkFailure and a message "There is no internet connection!" and an empty List as content
+else #efbbbb Catch
+    AvengerService -> Utilities : Invokes writeExceptionData()
+    activate Utilities
+    Utilities --> AvengerService : Returns ServiceResult with statusCode as SystemException, empty list in content and error message
+    deactivate Utilities
+    AvengerService --> Caller : Returns
+    deactivate AvengerService
+    deactivate Caller
+end
+
+newpage Edit name of Avenger
+hide footbox
+autonumber
+Caller -> AvengerService : Invokes editNameOfAvenger(hero)
+activate Caller
+activate AvengerService
+alt#6883BC #FCF6F5 try
+    AvengerService -> AvengerService : Invoke _dio.put() and assign the response received from the avengerServiceEditHeroEndPoint with path variable to variable responseData
+    alt#6883BC #FCF6F5 responseData.statusCode == 200
+    AvengerService -> AvengerService : Assign the data of reponseData to a variable content
+    AvengerService -> AvengerService : Initialize an empty list named finalContent of type AvengerBO 
+    alt#6883BC #FCF6F5 content is list
+    loop#6883BC #FCF6F5 each Element in content
+    AvengerService -> AvengerService : Assign the deserialized data of the Element to the variable instance
+    alt#6883BC #FCF6F5 instance != null 
+    AvengerService -> AvengerService : Add the instance to the List finalContent
+    end
+    end
+    end
+        AvengerService --> Caller : Returns the ServiceResult with statusCode as OK with a message "Data got edited Successfully" and assign the finalContent as content
+    else  #efbbbb
+        AvengerService --> Caller : Returns the ServiceResult with statusCode as Conflict with a message "Data has been edited" and an empty List as content
+    end
+else  #efbbbb FormatException
+    AvengerService --> Caller : Returns the ServiceResult with statusCode as Forbidden and a message "The type of data got is incorrect!" and an empty List as content
+else #efbbbb SocketException
+    AvengerService --> Caller : Returns the ServiceResult with statusCode as NetworkFailure and a message "There is no internet connection!" and an empty List as content
+else #efbbbb Catch
+    AvengerService -> Utilities : Invokes writeExceptionData()
+    activate Utilities
+    Utilities --> AvengerService : Returns ServiceResult with statusCode as SystemException, empty list in content and error message
+    deactivate Utilities
+    AvengerService --> Caller : Returns
+    deactivate AvengerService
+    deactivate Caller
+end
+
+newpage Get all Avengers
+hide footbox
+autonumber
+Caller -> AvengerService : Invokes getAllAvengers()
+activate Caller
+activate AvengerService
+alt#6883BC #FCF6F5 try
+    AvengerService -> AvengerService : Invoke _dio.get() and assign the response received from the avengerServiceEditHeroEndPoint to variable responseData
+    alt#6883BC #FCF6F5 responseData.statusCode == 200
+    AvengerService -> AvengerService : Assign the data of reponseData to a variable content
+    AvengerService -> AvengerService : Initialize an empty list named finalContent of type AvengerBO 
+    alt#6883BC #FCF6F5 content is list
+    loop#6883BC #FCF6F5 each Element in content
+    AvengerService -> AvengerService : Assign the deserialized data of the Element to the variable instance
+    alt#6883BC #FCF6F5 instance != null 
+    AvengerService -> AvengerService : Add the instance to the List finalContent
+    end
+    end
+    end
+        AvengerService --> Caller : Returns the ServiceResult with statusCode as OK with a message "Data got Successfully" and assign the finalContent as content
+    else  #efbbbb
+        AvengerService --> Caller : Returns the ServiceResult with statusCode as Conflict with a message "Data has been got" and an empty List as content
+    end
+else  #efbbbb FormatException
+    AvengerService --> Caller : Returns the ServiceResult with statusCode as Forbidden and a message "The type of data got is incorrect!" and an empty List as content
+else #efbbbb SocketException
+    AvengerService --> Caller : Returns the ServiceResult with statusCode as NetworkFailure and a message "There is no internet connection!" and an empty List as content
+else #efbbbb Catch
+    AvengerService -> Utilities : Invokes writeExceptionData()
+    activate Utilities
+    Utilities --> AvengerService : Returns ServiceResult with statusCode as SystemException, empty list in content and error message
+    deactivate Utilities
+    AvengerService --> Caller : Returns
+    deactivate AvengerService
+    deactivate Caller
+end
+@enduml

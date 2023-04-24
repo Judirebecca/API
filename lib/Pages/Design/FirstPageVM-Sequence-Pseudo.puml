@@ -1,0 +1,145 @@
+@startuml First PageVM Sequence Diagram 
+
+skinparam sequence{
+    ParticipantBackgroundColor #A7BEAE
+    LifeLineBackgroundColor #E7E8D1
+    LifeLineBorderColor #2C5F2D
+    ActorBackgroundColor #FC766AFF
+    ActorBorderColor #FC766AFF
+    ArrowColor #B85042
+    ArrowFontColor #234E70
+}
+
+title Fetch All Avengers
+autonumber
+hide footbox
+Caller->FirstPageVM : Invokes fetchAllAvengers()
+activate Caller
+activate FirstPageVM
+alt#6883BC #FCF6F5 try 
+FirstPageVM -> FirstPageVM : Set the isLoading as True
+FirstPageVM -> FirstPageVM : Get the Service Result of getAllAvengers() in the IAvenger Service and assign it to the variable data
+alt#6883BC #FCF6F5 data.statusCode == HttpStatusCode.OK
+FirstPageVM -> FirstPageVM : Set the content of the Service result to AllAvengers collection
+FirstPageVM -> FirstPageVM : Set empty error text
+else #efbbbb else 
+FirstPageVM -> FirstPageVM : Assign the message of Service result to the error text
+end
+FirstPageVM -> FirstPageVM : Set isLoading as False
+FirstPageVM --> Caller : Returns
+else #efbbbb catch 
+FirstPageVM -> Utilities : Invokes writeExceptionData()
+activate Utilities
+Utilities --> FirstPageVM :  Returns
+deactivate Utilities
+end
+FirstPageVM --> Caller : Returns
+deactivate Caller
+deactivate FirstPageVM
+
+newpage Add Hero to Avengers 
+autonumber
+Caller -> FirstPageVM : Invokes addHero(nameOfHero)
+activate Caller
+activate FirstPageVM
+alt#6883BC #FCF6F5 try 
+FirstPageVM -> FirstPageVM : Invoke cancelInput()
+FirstPageVM -> FirstPageVM : Set the isLoading as true
+FirstPageVM -> FirstPageVM : Assign the nameOfHero to name in the instance of AvengerBO and keep the id as null
+FirstPageVM -> FirstPageVM : Get the Service Result of createNewAvenger() in IAvenger Service and pass the instance of AvengerBO as parameter. Assign it to the variable data.
+FirstPageVM -> FirstPageVM : Invoke fetchAllAvengers()
+FirstPageVM --> Caller : Returns
+else #efbbbb catch 
+FirstPageVM -> Utilities : Invokes writeExceptionData()
+activate Utilities
+Utilities --> FirstPageVM :  Returns
+deactivate Utilities
+end
+FirstPageVM --> Caller : Returns
+deactivate Caller
+deactivate FirstPageVM
+
+newpage Edit Hero
+autonumber
+Caller -> FirstPageVM : Invokes editHero(index, nameOfHero)
+activate Caller
+activate FirstPageVM
+alt#6883BC #FCF6F5 try 
+FirstPageVM -> FirstPageVM : Invoke cancelInput()
+FirstPageVM -> FirstPageVM : Set the isLoading as true
+FirstPageVM -> FirstPageVM : Assign the nameOfHero to name in the instance of AvengerBO and keep the id as id of that particular Avenger in the collection
+FirstPageVM -> FirstPageVM : Get the Service Result of editNameOfAvenger() in IAvenger Service and pass the instance of AvengerBO as parameter. Assign it to the variable data.
+FirstPageVM -> FirstPageVM : Invoke fetchAllAvengers()
+FirstPageVM --> Caller : Returns
+else #efbbbb catch 
+FirstPageVM -> Utilities : Invokes writeExceptionData()
+activate Utilities
+Utilities --> FirstPageVM :  Returns
+deactivate Utilities
+end
+FirstPageVM --> Caller : Returns
+deactivate Caller
+deactivate FirstPageVM
+
+newpage Delete Hero
+autonumber
+Caller -> FirstPageVM : Invokes deleteHero(index)
+activate Caller
+activate FirstPageVM
+alt#6883BC #FCF6F5 try 
+FirstPageVM -> FirstPageVM : Assign null to name in the instance of AvengerBO and keep the id as id of the Avenger selected
+FirstPageVM -> FirstPageVM : Get the Service Result of deleteHeroFromAvenger() in IAvenger Service and pass the instance of AvengerBO as parameter. Assign it to the variable data.
+FirstPageVM -> FirstPageVM : Invoke fetchAllAvengers()
+FirstPageVM --> Caller : Returns
+else #efbbbb catch 
+FirstPageVM -> Utilities : Invokes writeExceptionData()
+activate Utilities
+Utilities --> FirstPageVM :  Returns
+deactivate Utilities
+end
+FirstPageVM --> Caller : Returns
+deactivate Caller
+deactivate FirstPageVM
+
+newpage Pop up for creating new Avenger
+autonumber
+Caller -> FirstPageVM : Invokes showpop()
+activate Caller
+activate FirstPageVM
+FirstPageVM -> FirstPageVM : Set the event AddText that has a data with index as null and message "showpopup"
+FirstPageVM -> Caller : Returns
+deactivate Caller
+deactivate FirstPageVM
+deactivate Caller
+deactivate FirstPageVM
+
+newpage Pop up for Editing Avenger
+autonumber
+Caller -> FirstPageVM : Invokes showsecondpop(index)
+activate Caller
+activate FirstPageVM
+FirstPageVM -> FirstPageVM : Set the event AddText that has a data with \n index received from the method and message "popupaction"
+FirstPageVM -> Caller : Returns
+deactivate Caller
+deactivate FirstPageVM
+
+newpage Close the Popup
+autonumber
+Caller -> FirstPageVM : Invokes cancelInput()
+activate Caller
+activate FirstPageVM
+FirstPageVM -> FirstPageVM : Add the NavigatorPop() to the stream
+FirstPageVM -> Caller : Returns
+deactivate Caller
+deactivate FirstPageVM
+
+newpage onChange()
+autonumber
+Caller -> FirstPageVM : Invokes onChange(text)
+activate Caller
+activate FirstPageVM
+FirstPageVM -> FirstPageVM : Add the received text to the textfield controller
+FirstPageVM -> Caller : Returns
+deactivate Caller
+deactivate FirstPageVM
+@enduml

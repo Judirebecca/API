@@ -10,9 +10,9 @@ package Pages{
     }
     class FirstPageVM{
         + fetchAllAvengers() : Future<void>
-        + addHero(String nameOfHero) : Future<void>
-        + editHero(int index, String nameOfHero) : Future<void>
-        + deleteHero(int index) : Future<void>
+        + OnclickaddHero(String nameOfHero) : Future<void>
+        + OnclickEditHero(int index, String nameOfHero) : Future<void>
+        + OnclickdeleteHero(int index) : Future<void>
         + showPop() : Future<void>
         + showSecondPop(int index) : Future<void>
         + cancelInput() : void
